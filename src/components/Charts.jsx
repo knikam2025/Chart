@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
 import Chart from 'react-apexcharts';
 
-const ProductChart = () => {
+
+const Charts = () => {
   const dispatch = useDispatch();
   const { products, status, error, chartData, categorySums } = useSelector((state) => state.products);
   const [priceChartData, setPriceChartData] = useState({
@@ -60,6 +61,8 @@ const ProductChart = () => {
     }));
   };
 
+  
+
   const getTitlePriceData = () => {
     const titles = products.map(product => product.title);
     const prices = products.map(product => product.price);
@@ -112,4 +115,4 @@ const ProductChart = () => {
   );
 };
 
-export default ProductChart;
+export default Charts;

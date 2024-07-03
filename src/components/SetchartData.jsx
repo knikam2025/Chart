@@ -4,6 +4,7 @@ import Chart from 'react-apexcharts';
 
 
 
+
 const DemoChart = () => {
   const [chartData, setChartData] = useState({
     options: {
@@ -20,14 +21,17 @@ const DemoChart = () => {
     }]
   });
 
+
+
   useEffect(() => {
-    axios.get('https://fakestoreapi.com/products')
+    axios.get('https://knikam2025.github.io/API/')
       .then(response => {
         const products = response.data;
         const categories = [...new Set(products.map(product => product.category))];
         const categoriesCount = categories.map(category =>
           products.filter(product => product.category === category).length
         );
+
 
         setChartData({
           options: {
@@ -55,7 +59,7 @@ const DemoChart = () => {
             options={chartData.options}
             series={chartData.series}
             type='bar'
-            width="500"
+            width="1000"
           />
         </div>
       </div>

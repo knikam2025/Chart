@@ -1,7 +1,5 @@
 import React from 'react'
-import DemoChart from './components/DemoChart'
-import Vchart from './components/Vchart'
-import ProductChart from './components/ProductChart'
+import Charts from './components/Charts'
 
 
 const App = () => {
@@ -11,7 +9,7 @@ const App = () => {
     <>
 
    
-<ProductChart/>
+<Charts/>
 
 
 

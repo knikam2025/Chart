@@ -11,7 +11,7 @@ const DemoChart = () => {
   });
 
   useEffect(() => {
-    axios.get('https://fakestoreapi.com/products')
+    axios.get('https://knikam2025.github.io/API')
       .then(response => {
         const products = response.data;
         const categories = [...new Set(products.map(product => product.category))];
@@ -38,7 +38,7 @@ const DemoChart = () => {
             options={chartData.options}
             series={chartData.series}
             type='donut'
-            width="500"
+            width="1000"
           />
           
         </div>

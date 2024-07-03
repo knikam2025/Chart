@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
+
 const initialState = {
   products: [],
   status: "idle",
@@ -9,12 +11,16 @@ const initialState = {
     categories: [],
     series: [],
   },
+
+
   categorySums: {
     jewelry: 0,
     clothing: 0,
     electronics: 0,
   },
 };
+
+
 
 export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   const response = await axios.get("https://fakestoreapi.com/products");
@@ -31,6 +37,7 @@ const productSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
+
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.products = action.payload;
@@ -48,7 +55,6 @@ const productSlice = createSlice({
           }]
         };
 
-        // Calculate sums for specified categories
         state.categorySums = {
           jewelry: action.payload.filter(product => product.category === 'jewelery').reduce((sum, product) => sum + product.price, 0),
           clothing: action.payload.filter(product => product.category.includes('clothing')).reduce((sum, product) => sum + product.price, 0),
