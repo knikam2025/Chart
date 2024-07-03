@@ -5,8 +5,8 @@ import Chart from 'react-apexcharts';
 
 const ProductChart = () => {
   const dispatch = useDispatch();
-  const { products, status, error } = useSelector((state) => state.products);
-  const [chartData, setChartData] = useState({
+  const { products, status, error, chartData, categorySums } = useSelector((state) => state.products);
+  const [priceChartData, setPriceChartData] = useState({
     options: {
       chart: {
         id: 'basic-bar',
@@ -30,7 +30,7 @@ const ProductChart = () => {
         products.filter(product => product.category === category).length
       );
 
-      setChartData({
+      setPriceChartData({
         options: {
           chart: {
             id: 'basic-bar',
@@ -54,10 +54,30 @@ const ProductChart = () => {
   };
 
   const getPriceData = () => {
-    return chartData.options.xaxis.categories.map(category => ({
+    return chartData.categories.map(category => ({
       name: category,
       data: [calculateAveragePrice(category)],
     }));
+  };
+
+  const getTitlePriceData = () => {
+    const titles = products.map(product => product.title);
+    const prices = products.map(product => product.price);
+
+    return {
+      options: {
+        chart: {
+          id: 'title-price-bar',
+        },
+        xaxis: {
+          categories: titles,
+        },
+      },
+      series: [{
+        name: 'Price',
+        data: prices,
+      }],
+    };
   };
 
   if (status === 'loading') {
@@ -71,22 +91,22 @@ const ProductChart = () => {
   return (
     <div className="App">
       <div className="row">
-        
-        <div className="price-chart">
-          <Chart
-            options={{
-              chart: {
-                id: 'price-bar',
-              },
-              xaxis: {
-                categories: chartData.options.xaxis.categories,
-              },
-            }}
-            series={getPriceData()}
-            type='bar'
-            width="1000"
-          />
-        </div>
+       
+      </div>
+      <div className="sums">
+        <h2>Category Sums</h2>
+        <p>Jewelry: ${categorySums.jewelry.toFixed(2)}</p>
+        <p>Clothing: ${categorySums.clothing.toFixed(2)}</p>
+        <p>Electronics: ${categorySums.electronics.toFixed(2)}</p>
+      </div>
+      <div className="title-price-chart">
+        <h2>Title vs Price</h2>
+        <Chart
+          options={getTitlePriceData().options}
+          series={getTitlePriceData().series}
+          type='bar'
+          width="1000"
+        />
       </div>
     </div>
   );

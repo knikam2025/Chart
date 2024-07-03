@@ -9,9 +9,14 @@ const initialState = {
     categories: [],
     series: [],
   },
+  categorySums: {
+    jewelry: 0,
+    clothing: 0,
+    electronics: 0,
+  },
 };
 
-export const * = createAsyncThunk("products/fetchProducts", async () => {
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   const response = await axios.get("https://fakestoreapi.com/products");
   return response.data;
 });
@@ -41,6 +46,13 @@ const productSlice = createSlice({
             name: 'Number of products',
             data: categoriesCount
           }]
+        };
+
+        // Calculate sums for specified categories
+        state.categorySums = {
+          jewelry: action.payload.filter(product => product.category === 'jewelery').reduce((sum, product) => sum + product.price, 0),
+          clothing: action.payload.filter(product => product.category.includes('clothing')).reduce((sum, product) => sum + product.price, 0),
+          electronics: action.payload.filter(product => product.category === 'electronics').reduce((sum, product) => sum + product.price, 0),
         };
       })
       .addCase(fetchProducts.rejected, (state, action) => {
